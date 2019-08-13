@@ -21,4 +21,24 @@ router.get("/", (req, res) => {
     });
 });
 
+router.post("/", (req, res) => {
+  const car = req.body;
+  if (!car.vin || !car.make || !car.model || !car.mileage) {
+    res.status(400).json({
+      message: "Please include vin, make, model, and mileage."
+    });
+  } else {
+    db("cars")
+      .insert(car)
+      .then(car => {
+        res.status(200).json(car);
+      })
+      .catch(error => {
+        res.status(500).json({
+          message: "There was an error saving to the database."
+        });
+      });
+  }
+});
+
 module.exports = router;
