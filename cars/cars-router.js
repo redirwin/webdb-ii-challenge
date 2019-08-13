@@ -9,4 +9,16 @@ const router = express.Router();
 
 // endpoints
 
+router.get("/", (req, res) => {
+  db("cars")
+    .then(cars => {
+      res.status(200).json(cars);
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: "There was an error retrieving cars from the database."
+      });
+    });
+});
+
 module.exports = router;
